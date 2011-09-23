@@ -1,0 +1,16 @@
+  <scripts> 
+        <script name="highlight_table"> 
+            <![CDATA[
+					$(document).ready(function(){
+					        $("table.dataview tbody td").live({
+						        mouseenter:function() {
+	          						$(this).parents('tr').addClass('highlight');
+	          					},
+	          					mouseleave:function() {
+	         						$(this).parents('tr').removeClass('highlight');
+	          					}
+					       })	
+					  });
+			]]> 
+        </script> 
+    </scripts>

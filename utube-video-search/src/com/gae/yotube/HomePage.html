@@ -1,0 +1,34 @@
+<wicket:extend>
+		
+		
+		<div wicket:id="contentId"/>
+		
+		<wicket:fragment  wicket:id="actionFragment">
+			<a href="" wicket:id="link">Play</a>
+		</wicket:fragment>
+		<wicket:fragment  wicket:id="dataTableFragment">
+			
+			<div>
+				<form wicket:id="searchForm">
+					<input type="text" wicket:id="name"/>
+					<input  type="submit" wicket:id="submit" value="Search" />  (Search starting  capital letter)
+				</form>	
+			</div>
+		
+			<table  class="dataview"  style="width: 70%;" cellspacing="0" wicket:id="datatable">[table]</table>
+		</wicket:fragment>
+		
+		<wicket:fragment  wicket:id="youtubeFragment">
+			<a href="" wicket:id="datatableLink">Back To List</a>
+			<div>
+				<object style="height: 390px; width: 640px">
+				  <param wicket:id="name" name="movie" value="#"/>
+				  <param name="allowFullScreen" value="true"/>
+				  <param name="allowScriptAccess" value="always"/>
+				  <embed wicket:id="src"  src="http://www.youtube.com/v/jtlJgJWnKyQ?version=3" type="application/x-shockwave-flash" allowfullscreen="true" allowScriptAccess="always" width="640" height="360"/>				  
+				</object>
+			</div>				
+		</wicket:fragment>
+
+		
+</wicket:extend>

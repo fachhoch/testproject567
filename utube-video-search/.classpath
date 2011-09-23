@@ -1,11 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="test"/>
 	<classpathentry kind="con" path="com.google.appengine.eclipse.core.GAE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/gdata-youtube-2.0.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/gdata-youtube-2.0.jar" sourcepath="E:/dev/gdata/gdata/java/src"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/gdata-client-1.0.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/gdata-core-1.0.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/gdata-media-1.0.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/gdata-core-1.0.jar" sourcepath="E:/dev/gdata/gdata/java/src"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/gdata-media-1.0.jar" sourcepath="E:/dev/gdata/gdata/java/src"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/guava-r09.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/commons-codec-1.4.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/commons-logging-1.1.1.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/httpclient-4.1.2.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/httpclient-cache-4.1.2.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/httpcore-4.1.2.jar" sourcepath="C:/Documents and Settings/sairamm/.m2/repository/org/apache/httpcomponents/httpcore/4.1.2/httpcore-4.1.2-sources.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/httpmime-4.1.2.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/commons-lang-2.6.jar" sourcepath="C:/Documents and Settings/sairamm/.m2/repository/commons-lang/commons-lang/2.6/commons-lang-2.6-sources.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/jdom.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/ant.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/jaxen.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/saxpath.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/xalan.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/xerces.jar" sourcepath="C:/Documents and Settings/sairamm/.m2/repository/xerces/xercesImpl/2.6.1/xercesImpl-2.6.1-sources.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/xml-apis.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/objectify-3.0.1.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/groovy-1.8.2.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/asm-3.2.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/GAEHttpClient.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/slf4j-api-1.5.8.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/slf4j-jdk14-1.4.2.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/wicket-1.4.12.jar" sourcepath="C:/Documents and Settings/sairamm/.m2/repository/org/apache/wicket/wicket/1.4.12/wicket-1.4.12-sources.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/wicket-extensions-1.4.12.jar" sourcepath="C:/Documents and Settings/sairamm/.m2/repository/org/apache/wicket/wicket-extensions/1.4.12/wicket-extensions-1.4.12-sources.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/jquery-1.4.7.jar" sourcepath="C:/Documents and Settings/sairamm/.m2/repository/org/wicketstuff/jquery/1.4.7/jquery-1.4.7-sources.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>
