@@ -8,7 +8,7 @@
 	<classpathentry kind="lib" path="war/WEB-INF/lib/gdata-client-1.0.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/gdata-core-1.0.jar" sourcepath="E:/dev/gdata/gdata/java/src"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/gdata-media-1.0.jar" sourcepath="E:/dev/gdata/gdata/java/src"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/guava-r09.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/guava-r09.jar" sourcepath="C:/Documents and Settings/sairamm/.m2/repository/com/google/guava/guava/r09/guava-r09-sources.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/commons-codec-1.4.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/commons-logging-1.1.1.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/httpclient-4.1.2.jar"/>
@@ -32,5 +32,10 @@
 	<classpathentry kind="lib" path="war/WEB-INF/lib/wicket-1.4.12.jar" sourcepath="C:/Documents and Settings/sairamm/.m2/repository/org/apache/wicket/wicket/1.4.12/wicket-1.4.12-sources.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/wicket-extensions-1.4.12.jar" sourcepath="C:/Documents and Settings/sairamm/.m2/repository/org/apache/wicket/wicket-extensions/1.4.12/wicket-extensions-1.4.12-sources.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/jquery-1.4.7.jar" sourcepath="C:/Documents and Settings/sairamm/.m2/repository/org/wicketstuff/jquery/1.4.7/jquery-1.4.7-sources.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/htmllexer.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/htmlparser.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/sitecapturer.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/thumbelina.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/commons-io-2.0.1.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>
