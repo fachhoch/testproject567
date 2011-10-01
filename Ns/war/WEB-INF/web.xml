@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns="http://java.sun.com/xml/ns/javaee"
+xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
+
+
+    <filter>
+        <filter-name>wicket</filter-name>
+        <filter-class>org.apache.wicket.protocol.http.WicketFilter</filter-class>
+        <init-param>
+            <param-name>applicationClassName</param-name>
+            <param-value>org.sairam.ns.web.WicketApplication</param-value>
+        </init-param>
+        <init-param>
+            <param-name>ignorePaths</param-name>
+            <param-value>/_ah/*</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>wicket</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+
+    <context-param>
+        <param-name>configuration</param-name>
+        <param-value>deployment</param-value>
+    </context-param>
+    
+	<servlet>
+		<servlet-name>PingCronServlet</servlet-name>
+		<servlet-class>org.sairam.ns.web.PingCronServlet</servlet-class>
+	</servlet>
+ 
+	<servlet-mapping>
+		<servlet-name>PingCronServlet</servlet-name>
+		<url-pattern>/cron/pingcronjob</url-pattern>
+	</servlet-mapping>	
+
+	
+</web-app>
