@@ -5,7 +5,6 @@ import java.util.List;
 import com.gae.yotube.service.model.PaginationDTO;
 import com.gae.yotube.service.model.SearchDTO;
 import com.gae.yotube.service.model.Video;
-import com.google.appengine.repackaged.com.google.common.base.Function;
 import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.Query;
@@ -24,6 +23,18 @@ public class DefaultVideoService implements VideoService {
 		return video;
 	}
 
+	@Override
+	public void saveAll(List<Video> videos) {
+		Objectify ofy = ObjectifyService.begin();
+		ofy.put(videos);
+	}
+	
+	@Override
+	public List<Video> getAllVideos() {
+		Objectify ofy = ObjectifyService.begin();
+		return ofy.query(Video.class).list();
+	}
+	
 	@Override
 	public List<Video> getVideos(PaginationDTO  paginationDTO) {
 		Objectify ofy = ObjectifyService.begin();
@@ -55,13 +66,19 @@ public class DefaultVideoService implements VideoService {
 			Objectify ofy = ObjectifyService.begin();
 			this.query=ofy.query(Video.class);
 			applyFilters();
-			applyPagination();
+			if(searchDTO.getPaginationDTO()!=null){
+				applyPagination();
+			}
+			
 		}
 		void applyFilters(){
 			if(searchDTO.getName()!=null){
 				query.filter("title >=", searchDTO.getName()); 
 				query.filter("title <", searchDTO.getName() + "\uFFFD"); 
+				query.order("title");
+				return;
 			}
+			query.order("-id");
 		}
 		void applyPagination(){
 			query.offset(searchDTO.getPaginationDTO().getFirst());
@@ -69,4 +86,11 @@ public class DefaultVideoService implements VideoService {
 		}
 	}
 	
+	@Override
+	public boolean exsistsVideoByTitle(String title) {
+		Objectify ofy = ObjectifyService.begin();
+		Query<Video> query= ofy.query(Video.class);
+		query.filter("title", title);
+		return query.list().size()!=0;
+	}
 }

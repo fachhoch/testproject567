@@ -1,18 +1,18 @@
 package com.gae.yotube;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.tools.ant.types.resources.StringResource;
 import org.apache.wicket.Component;
-import org.apache.wicket.MarkupContainer;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.ajax.markup.html.form.AjaxButton;
 import org.apache.wicket.behavior.AbstractBehavior;
-import org.apache.wicket.behavior.SimpleAttributeModifier;
 import org.apache.wicket.extensions.ajax.markup.html.repeater.data.table.AjaxFallbackDefaultDataTable;
 import org.apache.wicket.extensions.markup.html.repeater.data.grid.ICellPopulator;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.AbstractColumn;
@@ -21,35 +21,35 @@ import org.apache.wicket.extensions.markup.html.repeater.data.table.ISortableDat
 import org.apache.wicket.extensions.markup.html.repeater.data.table.PropertyColumn;
 import org.apache.wicket.extensions.markup.html.repeater.util.SortableDataProvider;
 import org.apache.wicket.markup.ComponentTag;
-import org.apache.wicket.markup.IMarkupResourceStreamProvider;
 import org.apache.wicket.markup.html.IHeaderResponse;
-import org.apache.wicket.markup.html.WebComponent;
 import org.apache.wicket.markup.html.WebMarkupContainer;
-import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
+import org.apache.wicket.markup.html.list.ListItem;
+import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.Fragment;
-import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
-import org.apache.wicket.util.resource.IResourceStream;
-import org.apache.wicket.util.resource.StringResourceStream;
 import org.wicketstuff.jquery.JQueryBehavior;
 
 import com.gae.yotube.service.model.PaginationDTO;
 import com.gae.yotube.service.model.SearchDTO;
 import com.gae.yotube.service.model.Video;
 import com.gae.yotube.util.ServiceUtil;
+import com.google.common.collect.Lists;
 
-public class HomePage extends BasePage {
+public class HomePage extends BasePage   {
 	
 	private static final String CONTENT_ID="contentId";
 	
 	private DataTableFragment  dataTableFragment;
 	
 	private SearchDTO  searchDTO;
+	
+	
+	private static final long serialVersionUID = 1992026987559149688L;
 	
 	public HomePage() {
 		//add(new JqueryYtubeBehaviour());
@@ -59,6 +59,11 @@ public class HomePage extends BasePage {
 		add(dataTableFragment);
 		add(new JQueryBehavior());
 		add(new AbstractBehavior() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1992026987559149688L;
+
 			@Override
 			public void renderHead(IHeaderResponse response) {
 				super.renderHead(response);
@@ -70,19 +75,35 @@ public class HomePage extends BasePage {
 	
 	
 	private class ActionFragment  extends  Fragment {
+			/**
+		 * 
+		 */
+		private static final long serialVersionUID = 2976223311797511096L;
+
 			public ActionFragment(String id,final Video  video) {
 				super(id, "actionFragment", HomePage.this);
-				add(new AjaxLink<Void>("link"){
+				String  videoLinks[]= StringUtils.split(video.getLink(), ',');
+				add(new ListView<String>("videoLinks",Lists.newArrayList(videoLinks)){
 					@Override
-					public void onClick(AjaxRequestTarget target) {
-						Component  newComponent=new EmbeddedYoutTubeFragment(CONTENT_ID, video);
-						getPage().get(CONTENT_ID).replaceWith(newComponent);
-						target.addComponent(newComponent);
+					protected void populateItem(final ListItem<String> item) {
+						item.add(new AjaxLink<Void>("link"){
+							@Override
+							public void onClick(AjaxRequestTarget target) {
+								Component  newComponent=new EmbeddedYoutTubeFragment(CONTENT_ID, item.getModelObject());
+								getPage().get(CONTENT_ID).replaceWith(newComponent);
+								target.addComponent(newComponent);
+							}
+						});
 					}
 				});
 			}
 	}
 	private class DataTableFragment extends  Fragment{
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 4419512655731836975L;
+
 		public DataTableFragment(String id) {
 			super(id, "dataTableFragment", HomePage.this);
 			setOutputMarkupId(true);
@@ -92,6 +113,8 @@ public class HomePage extends BasePage {
 			form.add(new AjaxButton("submit") {
 				@Override
 				protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
+					searchDTO.getPaginationDTO().setFirst(0);
+					searchDTO.getPaginationDTO().setCount(20);
 					target.addComponent(DataTableFragment.this.get("datatable"));
 				}
 			});
@@ -131,10 +154,19 @@ public class HomePage extends BasePage {
 	}
 	
 	private class EmbeddedYoutTubeFragment extends  Fragment {
-		public EmbeddedYoutTubeFragment(String id, Video  video) {
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -298239935870801546L;
+
+		public EmbeddedYoutTubeFragment(String id, String link) {
 			super(id, "youtubeFragment", HomePage.this);
 			setOutputMarkupId(true);
-			final String videoLink=StringUtils.replace("http://www.youtube.com/v/_PARAM_?version=3", "_PARAM_", getVideoId(video.getLink()));
+			//String videoSrc=video.getLink();
+			final String videoLink=StringUtils.contains(link, "youtube") ?
+					StringUtils.replace("http://www.youtube.com/v/_PARAM_?version=3", "_PARAM_", getVideoId(link)):
+					link;	
+			
 			add(new WebMarkupContainer("name"){
 				@Override
 				protected void onComponentTag(ComponentTag tag) {
@@ -159,12 +191,21 @@ public class HomePage extends BasePage {
 		}
 	}
 	private String getVideoId(String videoLink){
-		int firstIndex=videoLink.indexOf("=");
-		int lastIndex=videoLink.indexOf("&");
-		return videoLink.substring(firstIndex+1, lastIndex);
+		if(StringUtils.contains(videoLink, "?v=")){
+			return StringUtils.substringBetween(videoLink,"?v=", "&");
+		}
+		if(StringUtils.contains(videoLink, "/v/")){
+			return StringUtils.substringBetween(videoLink,"/v/", "&");
+		}
+		return "";
 	}
 	
 	private class SearchFragment extends  Fragment {
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -3777094109754184183L;
+
 		public SearchFragment(String id) {
 			super(id, "searchFragment", HomePage.this);
 		}

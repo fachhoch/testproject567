@@ -16,4 +16,11 @@ public interface VideoService {
 	List<Video>  getVideos(SearchDTO  searchDTO);
 
 	int getTotalVidoes(SearchDTO searchDTO);
+	
+	List<Video>  getAllVideos();
+	
+	void saveAll(List<Video> videos );
+	
+	boolean  exsistsVideoByTitle(String title);
+ 	
 }

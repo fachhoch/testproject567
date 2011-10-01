@@ -2,17 +2,25 @@ package com.google.gdata.client;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.MessageFormat;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.tools.ant.util.FileUtils;
 
 import com.gae.utube.test.VideoHelper;
+import com.gae.yotube.service.LinksReader;
+import com.gae.yotube.service.LinksReader.LinksDTO;
 import com.gae.yotube.service.YouTubeManager;
 import com.gae.yotube.service.model.Video;
 import com.gae.yotube.util.ServiceUtil;
 import com.gae.yotube.xml.GroovyXml;
 import com.google.appengine.repackaged.com.google.common.collect.Multiset.Entry;
+import com.google.common.collect.Lists;
 import com.google.gdata.data.ParseSource;
 import com.google.gdata.data.media.GDataContentHandler;
 import com.google.gdata.data.media.mediarss.MediaGroup;
@@ -64,7 +72,28 @@ public class YouTubeTester {
 //			//ServiceUtil.VIDEO_SERVICE.addVideo(video);
 //			System.out.println(video);
 //		}
-
+		
+		
+		//String url=parameters.get(PARAM_URL);
+		String url="http://telugufreelinks.blogspot.com/search/label/telugu%20movies?max-results=100";
+		
+		LinksReader  linksReader=new LinksReader();
+		boolean read=true;
+		LinksDTO  linksDTO= null;
+		int count=1;
+		while(read){
+			url=linksDTO==null ?"http://telugufreelinks.blogspot.com/search/label/telugu%20movies?max-results=100":linksDTO.getNextLink();
+			linksDTO= linksReader.readTeluguFreeLinks(url);
+			List<String>  lines=Lists.newArrayList();
+			for(String key:linksDTO.getLinks().keySet()){
+				String line="{0},{1}";
+				lines.add(MessageFormat.format(line, key,linksDTO.getLinks().get(key)));
+			}
+			org.apache.commons.io.FileUtils.writeLines(new File("e://dev//gdata//links/"+count+".txt"), lines);
+			read=linksDTO.getNextLink()!=null;
+		}
+		
+		
 	}
 
 	

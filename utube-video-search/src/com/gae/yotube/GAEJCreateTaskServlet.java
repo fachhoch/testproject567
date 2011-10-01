@@ -19,8 +19,7 @@ public class GAEJCreateTaskServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		Queue queue = QueueFactory.getQueue("subscription-queue");
-		queue.add(TaskOptions.Builder.withUrl("/gaejsignupsubscriber").param("noOfTimes", req.getParameter("noOfTimes")));
-		resp.getWriter().println("Successfully created a Task in the Queue");
+		queue.add(TaskOptions.Builder.withUrl("/gaejsignupsubscriber").param(GAEJSignupSubscriberServlet.PARAM_REQ_HANDLER, req.getParameter(GAEJSignupSubscriberServlet.PARAM_REQ_HANDLER)));
 	}
 	
 	@Override
