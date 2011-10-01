@@ -1,4 +1,10 @@
-<!-- Indices written at Fri, 23 Sep 2011 20:10:55 UTC -->
+<!-- Indices written at Fri, 30 Sep 2011 22:55:57 UTC -->
 
-<datastore-indexes/>
+<datastore-indexes>
 
+    <!-- Used 17 times in query history -->
+    <datastore-index kind="Video" ancestor="false" source="auto">
+        <property name="__key__" direction="desc"/>
+    </datastore-index>
+
+</datastore-indexes>

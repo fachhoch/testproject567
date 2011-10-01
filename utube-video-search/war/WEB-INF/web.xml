@@ -51,6 +51,9 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 		<url-pattern>/cron/gaejcronjob</url-pattern>
 	</servlet-mapping>	
 	
+
+
+
 	<servlet>
 		<servlet-name>PingCronServlet</servlet-name>
 		<servlet-class>com.gae.yotube.PingCronServlet</servlet-class>
