@@ -5,9 +5,9 @@
 		
 		<wicket:fragment  wicket:id="actionFragment">
 			<table>
-				<tr>
-					<td  wicket:id="videoLinks">
-						<a href="" wicket:id="link">Play</a>
+				<tr wicket:id="videoLinks">
+					<td  >
+						<a href="" wicket:id="link"><span wicket:id="type"/></a>
 					</td>
 				</tr>
 			</table>
@@ -26,7 +26,10 @@
 		</wicket:fragment>
 		
 		<wicket:fragment  wicket:id="youtubeFragment">
-			<a href="" wicket:id="datatableLink">Back To List</a>
+			<a href="" wicket:id="datatableLinkTop">Back To List</a> ||
+			<a href="" wicket:id="refreshLinkTop">Refresh  to Load Video</a>||
+			<a href="" wicket:id="linkToPageTop" target="_blank" >Link to Video(New Window)</a>
+			<br>
 			<div>
 				<object style="height: 390px; width: 640px">
 				  <param wicket:id="name" name="movie" value="#"/>
@@ -34,7 +37,12 @@
 				  <param name="allowScriptAccess" value="always"/>
 				  <embed wicket:id="src"  src="#" type="application/x-shockwave-flash" allowfullscreen="true" allowScriptAccess="always" width="640" height="360"/>				  
 				</object>
-			</div>				
+			</div>
+			<br>
+			<a href="" wicket:id="datatableLinkBottom">Back To List</a>	||			
+			<a href="" wicket:id="refreshLinkBottom">Refresh  to Load Video</a>||
+			<a href="" wicket:id="linkToPageTop" target="_blank" >Link to Video(New Window)</a>
+
 		</wicket:fragment>
 
 		

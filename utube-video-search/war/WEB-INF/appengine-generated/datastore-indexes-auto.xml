@@ -1,10 +1,15 @@
-<!-- Indices written at Fri, 30 Sep 2011 22:55:57 UTC -->
+<!-- Indices written at Wed, 19 Oct 2011 02:15:08 UTC -->
 
 <datastore-indexes>
 
-    <!-- Used 17 times in query history -->
+    <!-- Used 4 times in query history -->
     <datastore-index kind="Video" ancestor="false" source="auto">
         <property name="__key__" direction="desc"/>
+    </datastore-index>
+
+    <!-- Used 3 times in query history -->
+    <datastore-index kind="ChunkFile" ancestor="true" source="auto">
+        <property name="index" direction="asc"/>
     </datastore-index>
 
 </datastore-indexes>

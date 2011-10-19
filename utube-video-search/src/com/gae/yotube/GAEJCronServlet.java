@@ -26,7 +26,7 @@ public class GAEJCronServlet extends HttpServlet {
 //				ServiceUtil.VIDEO_SERVICE.addVideo(video);
 //			}
 			Queue queue = QueueFactory.getQueue("subscription-queue");
-			queue.add(TaskOptions.Builder.withUrl("/gaejsignupsubscriber").param(GAEJSignupSubscriberServlet.PARAM_REQ_HANDLER, "READ_MIRCHI"));
+			//queue.add(TaskOptions.Builder.withUrl("/gaejsignupsubscriber").param(GAEJSignupSubscriberServlet.PARAM_REQ_HANDLER, "READ_MIRCHI"));
 			queue.add(TaskOptions.Builder.withUrl("/gaejsignupsubscriber").param(GAEJSignupSubscriberServlet.PARAM_REQ_HANDLER, "READ_TELUGU_LINKS"));
 		} catch (Exception ex) {
 			log.log(Level.SEVERE, "Uncaught exception", ex);

@@ -175,7 +175,10 @@ public class GAEJSignupSubscriberServlet extends HttpServlet {
 			return linksReader.readTeluguFreeLinks(url);
 
 		}
-
+		@Override
+		protected void nextPageTask(LinksDTO linksDTO) {
+			//super.nextPageTask(linksDTO);
+		}
 		@Override
 		protected RequestHandler getNextTaskRequestHandler() {
 			return RequestHandler.READ_TELUGU_LINKS;
@@ -264,7 +267,7 @@ public class GAEJSignupSubscriberServlet extends HttpServlet {
 	}
 	
 	
-	private static enum RequestHandler{
+	public static enum RequestHandler{
 		READ_MIRCHI,READ_TELUGU_LINKS,
 		VALIDATE,PERSISTS;
 		

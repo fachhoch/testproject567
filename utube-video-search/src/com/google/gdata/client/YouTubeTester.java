@@ -1,35 +1,17 @@
 package com.google.gdata.client;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
 import java.text.MessageFormat;
 import java.util.List;
-import java.util.Map;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.FutureTask;
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.tools.ant.util.FileUtils;
-
-import com.gae.utube.test.VideoHelper;
 import com.gae.yotube.service.LinksReader;
 import com.gae.yotube.service.LinksReader.LinksDTO;
-import com.gae.yotube.service.YouTubeManager;
-import com.gae.yotube.service.model.Video;
-import com.gae.yotube.util.ServiceUtil;
-import com.gae.yotube.xml.GroovyXml;
-import com.google.appengine.repackaged.com.google.common.collect.Multiset.Entry;
 import com.google.common.collect.Lists;
-import com.google.gdata.data.ParseSource;
-import com.google.gdata.data.media.GDataContentHandler;
-import com.google.gdata.data.media.mediarss.MediaGroup;
-import com.google.gdata.data.youtube.VideoEntry;
-import com.google.gdata.data.youtube.VideoFeed;
-import com.google.gdata.util.ContentType;
-import com.google.gdata.util.ServiceException;
-import com.google.gdata.wireformats.AltRegistry;
-import com.google.gdata.wireformats.input.AtomDataParser;
 
 public class YouTubeTester {
 	
@@ -75,26 +57,70 @@ public class YouTubeTester {
 		
 		
 		//String url=parameters.get(PARAM_URL);
-		String url="http://telugufreelinks.blogspot.com/search/label/telugu%20movies?max-results=100";
-		
-		LinksReader  linksReader=new LinksReader();
-		boolean read=true;
-		LinksDTO  linksDTO= null;
-		int count=1;
-		while(read){
-			url=linksDTO==null ?"http://telugufreelinks.blogspot.com/search/label/telugu%20movies?max-results=100":linksDTO.getNextLink();
-			linksDTO= linksReader.readTeluguFreeLinks(url);
-			List<String>  lines=Lists.newArrayList();
-			for(String key:linksDTO.getLinks().keySet()){
-				String line="{0},{1}";
-				lines.add(MessageFormat.format(line, key,linksDTO.getLinks().get(key)));
-			}
-			org.apache.commons.io.FileUtils.writeLines(new File("e://dev//gdata//links/"+count+".txt"), lines);
-			read=linksDTO.getNextLink()!=null;
+		System.setProperty ("sun.net.client.defaultReadTimeout", "70000");
+		System.setProperty ("sun.net.client.defaultConnectTimeout", "70000");
+		final String url="http://telugufreelinks.blogspot.com/search/label/telugu%20movies?max-results=100";
+		LinksReader  linksReader= new LinksReader();
+		LinksDTO linksDTO= linksReader.readBharath("http://www.bharatmovies.com/telugu/watch/telugu-movies-new.htm");
+		List<String>  lines=Lists.newArrayList();
+		for(String key :linksDTO.getLinks().keySet()){
+			String line="title[{0}],links[{1}]";
+			line=MessageFormat.format(line, key,linksDTO.getLinks().get(key));
+			//System.out.println(line+" "+name);
+			lines.add(line);
+			org.apache.commons.io.FileUtils.writeLines(new File("c://dev//links/"+"new-additions"+".txt"), lines);			
 		}
-		
-		
+//		Callable<List<String>> callable= new Callable<List<String>>() {
+//			@Override
+//			public List<String> call() throws Exception {
+//				LinksReader.NextLinksGrabber  linksReader= new LinksReader.NextLinksGrabber();
+//				linksReader.read(url);
+//				return linksReader.getNextLinks();
+//			}
+//		};
+//		Future<List<String>> future= executor.submit(callable);
+//		List<String> links=future.get() ;
+//		int count=1;
+//		for(String  link :links  ){
+//			executor.execute(new MyRunnable(link,String.valueOf(count)));
+//			count++;
+//		}
+//		executor.shutdown();
+//		while (!executor.isTerminated()) {
+//			
+//		}
+//		System.out.println("Finished all threads");
+//	}
+//	
+//	static ExecutorService executor = Executors.newFixedThreadPool(200);
+//	
+//	public static  class MyRunnable implements Runnable {
+//		String url;
+//		String name;
+//		public MyRunnable(String url,final  String name ) {
+//			this.url=url;
+//			this.name=name;
+//		}
+//		@Override
+//		public void run() {
+//			try{
+//				LinksReader  linksReader=new LinksReader();
+//				System.out.println("start reading "+name+"  "+url);
+//				LinksDTO linksDTO= linksReader.readTeluguFreeLinks(url);
+//				System.out.println("finish reading "+name);
+//
+//				List<String>  lines=Lists.newArrayList();
+//				for(String key:linksDTO.getLinks().keySet()){
+//					String line="title[{0}],links[{1}]";
+//					line=MessageFormat.format(line, key,linksDTO.getLinks().get(key));
+//					System.out.println(line+" "+name);
+//					lines.add(line);
+//				}
+//				if(lines.isEmpty())return;
+//				org.apache.commons.io.FileUtils.writeLines(new File("c://dev//links/"+name+".txt"), lines);
+//			}catch (Exception e) {
+//				System.out.println(e);
+//			}
+//		}
 	}
-
-	
 }

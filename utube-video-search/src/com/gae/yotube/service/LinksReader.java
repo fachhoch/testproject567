@@ -14,11 +14,15 @@ import org.htmlparser.Parser;
 import org.htmlparser.Tag;
 import org.htmlparser.filters.HasAttributeFilter;
 import org.htmlparser.filters.TagNameFilter;
+import org.htmlparser.nodes.TagNode;
+import org.htmlparser.tags.Div;
 import org.htmlparser.tags.LinkTag;
 import org.htmlparser.util.NodeIterator;
 import org.htmlparser.util.NodeList;
 
+import com.gae.yotube.EmbedTag;
 import com.google.appengine.repackaged.com.google.common.base.Joiner;
+import com.google.appengine.repackaged.com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 public class LinksReader {
@@ -121,7 +125,7 @@ public class LinksReader {
 	 }
 	
 	 public  LinksDTO readTeluguFreeLinks(String url)throws Exception{
-		 log.log(Level.INFO,"|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
+		 //log.log(Level.INFO,"|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
 		 LinksDTO  linksDTO= new LinksDTO();
 		 
 		 Parser  parser= new Parser(url);
@@ -132,7 +136,7 @@ public class LinksReader {
 		 for(NodeIterator  iterator=h3NodeLists.elements() ; iterator.hasMoreNodes();){
 			Node node=iterator.nextNode();	
 			LinkTag  linkTag=(LinkTag)node.getChildren().elementAt(0);
-			log.info("name "+linkTag.getLinkText());
+			//log.info("name "+linkTag.getLinkText());
 			try{
 				NodeList videoLinkNodeList= new Parser(linkTag.extractLink())
 				.parse(new HasAttributeFilter("class", "post-body entry-content"))
@@ -142,6 +146,7 @@ public class LinksReader {
 						if(node  instanceof  LinkTag){
 							LinkTag  linkTag=(LinkTag)node;
 							return StringUtils.contains(linkTag.extractLink(), "http://telugufreelinks.ulmb.com/");
+							//return StringUtils.contains(linkTag.extractLink(), "telugufreelinks.ulmb.com/");
 						}
 						return false;
 					}
@@ -162,9 +167,9 @@ public class LinksReader {
 				LinkTag  linkTag=(LinkTag)node;
 				//readTeluguFreeLinks(linkTag.getLink());
 				linksDTO.nextLink=linkTag.getLink();
-				log.log(Level.SEVERE,linksDTO.nextLink);
+				//log.log(Level.INFO,linksDTO.nextLink);
 		 }
-		 log.log(Level.INFO,"**************************************************************************************************");
+		 //log.log(Level.INFO,"**************************************************************************************************");
 		 return linksDTO;
 	 }
 
@@ -181,6 +186,78 @@ public class LinksReader {
 		 }
 		 return links;
 	}
+	 public  List<String> readNextLinks(String url)throws Exception{
+		 List<String>  urls= Lists.newArrayList();
+		 Parser  parser= new Parser(url);
+		 NodeList pageNodeList= parser.parse(new HasAttributeFilter("class", "widget Blog"));
+		 NodeList  olderNodeList=pageNodeList.extractAllNodesThatMatch(new HasAttributeFilter("id","Blog11_blog-pager-older-link"), true);
+		 for(NodeIterator  iterator=olderNodeList.elements() ; iterator.hasMoreNodes();){
+				Node node=iterator.nextNode();	
+				LinkTag  linkTag=(LinkTag)node;
+				//readTeluguFreeLinks(linkTag.getLink());
+				//linksDTO.nextLink=linkTag.getLink();
+				//log.log(Level.INFO,linkTag.getLink());
+				urls.add(linkTag.getLink());
+				readNextLinks(linkTag.getLink());
+		 }
+		 return urls;
+
+	 }
 	
-	
+	 
+	 public static class NextLinksGrabber  {
+		 List<String>  nextLinks= Lists.newArrayList();
+		public void read(String url) throws Exception{
+			 Parser  parser= new Parser(url);
+			 NodeList pageNodeList= parser.parse(new HasAttributeFilter("class", "widget Blog"));
+			 NodeList  olderNodeList=pageNodeList.extractAllNodesThatMatch(new HasAttributeFilter("id","Blog11_blog-pager-older-link"), true);
+			 for(NodeIterator  iterator=olderNodeList.elements() ; iterator.hasMoreNodes();){
+					Node node=iterator.nextNode();	
+					LinkTag  linkTag=(LinkTag)node;
+					//log.log(Level.INFO,linkTag.getLink());
+					nextLinks.add(linkTag.getLink());
+					read(linkTag.getLink());
+			 }
+		 }
+		public List<String>  getNextLinks(){
+			 return nextLinks;
+		 }
+	 }
+	 
+	 public  LinksDTO readBharath(String url) throws Exception{
+		 LinksDTO  linksDTO= new LinksDTO();
+		 Parser  parser= new Parser(url);
+		 NodeList divNodes= parser.parse(new HasAttributeFilter("id", "cmain")).extractAllNodesThatMatch(new NodeFilter() {
+			@Override
+			public boolean accept(Node node) {
+				if(node instanceof Div){
+					String id=((Div)node).getAttribute("id");
+					return id!=null&&(id.equals("L1")||id.equals("L2"));
+				}
+				return false;
+			}
+		}, true);
+		for(NodeIterator  divNodesIterator=divNodes.elements() ; divNodesIterator.hasMoreNodes();) {
+			Node divNode=divNodesIterator.nextNode();	
+			NodeList list = new NodeList ();
+			NodeFilter filter = new TagNameFilter ("A");
+			for (NodeIterator e = divNode.getChildren().elements(); e.hasMoreNodes ();)
+			      e.nextNode ().collectInto (list, filter);
+			for(NodeIterator  aNodesIterator=list.elements() ; aNodesIterator.hasMoreNodes();) {
+				LinkTag  linkTag=(LinkTag)aNodesIterator.nextNode();
+				linksDTO.links.put(linkTag.getLinkText(), parseBharathLink(linkTag.getLink()));
+			}
+		}
+		 return linksDTO;
+	 }
+	 
+	 private String  parseBharathLink(String url) throws Exception{
+		 List<String>  links= Lists.newArrayList();
+		 NodeList embedNodeList= new Parser(url).parse(new HasAttributeFilter("id", "cmain")).extractAllNodesThatMatch(new TagNameFilter("embed"), true);
+			for(NodeIterator  embedNodeListIterator=embedNodeList.elements() ; embedNodeListIterator.hasMoreNodes();) {
+				TagNode  tagNode=(TagNode)embedNodeListIterator.nextNode();
+				links.add(tagNode.getAttribute("src"));
+			}
+		 return Joiner.on(",").join(links);
+	 }
 }

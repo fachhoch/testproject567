@@ -1,8 +1,11 @@
 package com.gae.yotube;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.wicket.Page;
 import org.apache.wicket.protocol.http.HttpSessionStore;
 import org.apache.wicket.protocol.http.WebApplication;
+import org.apache.wicket.protocol.http.WebRequest;
 import org.apache.wicket.session.ISessionStore;
 
 
@@ -28,7 +31,10 @@ public class WicketApplication extends WebApplication {
         return new HttpSessionStore(this);
     }
 	
-	
+	@Override
+	protected WebRequest newWebRequest(final HttpServletRequest servletRequest) {
+	    return new GaeSafeServletWebRequest(servletRequest);
+	}
 	
 	
 }

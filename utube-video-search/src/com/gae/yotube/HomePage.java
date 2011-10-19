@@ -1,11 +1,8 @@
 package com.gae.yotube;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.wicket.Component;
@@ -14,6 +11,7 @@ import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.ajax.markup.html.form.AjaxButton;
 import org.apache.wicket.behavior.AbstractBehavior;
 import org.apache.wicket.extensions.ajax.markup.html.repeater.data.table.AjaxFallbackDefaultDataTable;
+import org.apache.wicket.extensions.ajax.markup.html.repeater.data.table.AjaxNavigationToolbar;
 import org.apache.wicket.extensions.markup.html.repeater.data.grid.ICellPopulator;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.AbstractColumn;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.IColumn;
@@ -32,6 +30,7 @@ import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
+import org.objectweb.asm.Label;
 import org.wicketstuff.jquery.JQueryBehavior;
 
 import com.gae.yotube.service.model.PaginationDTO;
@@ -87,6 +86,9 @@ public class HomePage extends BasePage   {
 					@Override
 					protected void populateItem(final ListItem<String> item) {
 						item.add(new AjaxLink<Void>("link"){
+							{
+								add(new org.apache.wicket.markup.html.basic.Label("type",getVideoType(item.getModelObject())));
+							}
 							@Override
 							public void onClick(AjaxRequestTarget target) {
 								Component  newComponent=new EmbeddedYoutTubeFragment(CONTENT_ID, item.getModelObject());
@@ -97,6 +99,30 @@ public class HomePage extends BasePage   {
 					}
 				});
 			}
+	}
+	
+	private String getVideoType(String videoLink){
+		if(StringUtils.contains(videoLink, "youtube")){
+			return "Youtube";
+		}
+		if(StringUtils.contains(videoLink, "megavideo")){
+			return "Megavideo";
+		}
+		if(StringUtils.contains(videoLink, "videobb")){
+			return "Videobb";
+		}
+		if(StringUtils.contains(videoLink, "veoh")){
+			return "veoh";
+		}
+		if(StringUtils.contains(videoLink, "youku")){
+			return "youku";
+		}
+		if(StringUtils.contains(videoLink, "dailymotion")){
+			return "dailymotion";
+		}
+
+		return "Play";
+		
 	}
 	private class DataTableFragment extends  Fragment{
 		/**
@@ -149,7 +175,11 @@ public class HomePage extends BasePage   {
 				}
 				
 			};
-			add(new AjaxFallbackDefaultDataTable<Video>("datatable",columns,dataProvider,20));
+			add(new AjaxFallbackDefaultDataTable<Video>("datatable",columns,dataProvider,20){
+				{
+					addBottomToolbar(new AjaxNavigationToolbar(this));
+				}
+			});
 		}
 	}
 	
@@ -179,7 +209,7 @@ public class HomePage extends BasePage   {
 					tag.put("src", videoLink);
 				}
 			});
-			add(new AjaxLink<Void>("datatableLink"){
+			add(new AjaxLink<Void>("datatableLinkTop"){
 				@Override
 				public void onClick(AjaxRequestTarget target) {
 					//Component  newComponent=new DataTableFragment(CONTENT_ID);
@@ -187,9 +217,50 @@ public class HomePage extends BasePage   {
 					target.addComponent(dataTableFragment);
 				}
 			});
-			
+			add(new AjaxLink<Void>("refreshLinkTop"){
+				@Override
+				public void onClick(AjaxRequestTarget target) {
+					//Component  newComponent=new DataTableFragment(CONTENT_ID);
+					//getPage().get(CONTENT_ID).replaceWith(dataTableFragment);
+					target.addComponent(EmbeddedYoutTubeFragment.this);
+				}
+			});
+
+			add(new AjaxLink<Void>("refreshLinkBottom"){
+				@Override
+				public void onClick(AjaxRequestTarget target) {
+					//Component  newComponent=new DataTableFragment(CONTENT_ID);
+					//getPage().get(CONTENT_ID).replaceWith(dataTableFragment);
+					target.addComponent(EmbeddedYoutTubeFragment.this);
+				}
+			});
+
+			add(new AjaxLink<Void>("datatableLinkBottom"){
+				@Override
+				public void onClick(AjaxRequestTarget target) {
+					//Component  newComponent=new DataTableFragment(CONTENT_ID);
+					getPage().get(CONTENT_ID).replaceWith(dataTableFragment);
+					target.addComponent(dataTableFragment);
+				}
+			});
+			add(new WebMarkupContainer("linkToPageTop"){
+				@Override
+				protected void onComponentTag(ComponentTag tag) {
+					tag.put("href", videoLink);
+				}
+			});
+			add(new WebMarkupContainer("linkToPageBottom"){
+				@Override
+				protected void onComponentTag(ComponentTag tag) {
+					tag.put("href", videoLink);
+				}
+			});
+
 		}
 	}
+	
+	
+	
 	private String getVideoId(String videoLink){
 		if(StringUtils.contains(videoLink, "?v=")){
 			return StringUtils.substringBetween(videoLink,"?v=", "&");
