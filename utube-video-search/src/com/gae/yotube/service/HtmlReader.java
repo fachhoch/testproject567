@@ -1,6 +1,7 @@
 package com.gae.yotube.service;
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -28,16 +29,16 @@ import com.thoughtworks.xstream.io.xml.DomDriver;
 public class HtmlReader {
 	
 	List<VideoDTO>  videoDTOS=Lists.newArrayList();
-	public static class VideoDTO {
+	public static class VideoDTO  implements  Serializable{
 		public String name;
 		public List<VideoSrcDTO>  videoSrcDTOs=Lists.newArrayList();
 	}
-	public static class VideoSrcDTO {
+	public static class VideoSrcDTO  implements  Serializable{
 		public String name;
 		public List<LinkDTO>  linkDTOs=Lists.newArrayList();
 	}
 	
-	public static class LinkDTO {
+	public static class LinkDTO implements  Serializable{
 		public String name;
 		public String url;
 	}
@@ -46,7 +47,7 @@ public class HtmlReader {
 	
 	static ExecutorService executor = Executors.newFixedThreadPool(60);
 	
-	static List<VideoDTO> readTeluguNagar(String text) throws Exception{
+	public static List<VideoDTO> readTeluguNagar(String text) throws Exception{
 		List<VideoDTO>  videoDTOs=Lists.newArrayList();
 		 Parser  parser= new Parser(text);
 		 NodeList moviesNodeList= parser.parse(new HasAttributeFilter("id", "Movies_dlMovies"));
