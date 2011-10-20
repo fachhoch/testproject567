@@ -21,6 +21,7 @@ import org.apache.wicket.extensions.markup.html.repeater.util.SortableDataProvid
 import org.apache.wicket.markup.ComponentTag;
 import org.apache.wicket.markup.html.IHeaderResponse;
 import org.apache.wicket.markup.html.WebMarkupContainer;
+import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.list.ListItem;
@@ -30,9 +31,10 @@ import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
-import org.objectweb.asm.Label;
 import org.wicketstuff.jquery.JQueryBehavior;
 
+import com.gae.yotube.service.HtmlReader.LinkDTO;
+import com.gae.yotube.service.HtmlReader.VideoSrcDTO;
 import com.gae.yotube.service.model.PaginationDTO;
 import com.gae.yotube.service.model.SearchDTO;
 import com.gae.yotube.service.model.Video;
@@ -101,6 +103,38 @@ public class HomePage extends BasePage   {
 			}
 	}
 	
+	
+	private class ActionFragment1   extends  Fragment {
+		public ActionFragment1(String id, Video  video) {
+			super(id, "actionFragment1", HomePage.this);
+			List<VideoSrcDTO>  videoSrcDTOs=ServiceUtil.fromXml(video.getLink());
+			add(new ListView<VideoSrcDTO>("videoSrc", videoSrcDTOs){
+				@Override
+				protected void populateItem(ListItem<VideoSrcDTO> listItem) {
+					VideoSrcDTO  videoSrcDTO=listItem.getModelObject();
+					listItem.add(new Label("src",videoSrcDTO.name));
+					listItem.add(new ListView<LinkDTO>("links", videoSrcDTO.linkDTOs){
+						@Override
+						protected void populateItem(final ListItem<LinkDTO> listItem) {
+							final LinkDTO  linkDTO=listItem.getModelObject();
+							listItem.add(new AjaxLink<Void>("link"){
+								{
+									add(new org.apache.wicket.markup.html.basic.Label("type",linkDTO.name+" "+getVideoType(linkDTO.url)));
+								}
+								@Override
+								public void onClick(AjaxRequestTarget target) {
+									Component  newComponent=new EmbeddedYoutTubeFragment(CONTENT_ID, linkDTO.url);
+									getPage().get(CONTENT_ID).replaceWith(newComponent);
+									target.addComponent(newComponent);
+								}
+							});
+						}
+					});
+				}
+			});
+		}
+	}
+	
 	private String getVideoType(String videoLink){
 		if(StringUtils.contains(videoLink, "youtube")){
 			return "Youtube";
@@ -150,7 +184,10 @@ public class HomePage extends BasePage   {
 			columns.add(new AbstractColumn<Video>(new Model<String>("Link")) {
 				@Override
 				public void populateItem(Item<ICellPopulator<Video>> cellItem,String componentId, IModel<Video> model) {
-					cellItem.add(new ActionFragment(componentId, model.getObject()));
+					Video  video=model.getObject();
+					cellItem.add(ServiceUtil.isXMLLike(video.getLink())?  
+							new ActionFragment1(componentId, video) : 
+							new ActionFragment(componentId, model.getObject()));
 				}
 			});
 			
@@ -266,8 +303,13 @@ public class HomePage extends BasePage   {
 			return StringUtils.substringBetween(videoLink,"?v=", "&");
 		}
 		if(StringUtils.contains(videoLink, "/v/")){
-			return StringUtils.substringBetween(videoLink,"/v/", "&");
+			if(StringUtils.contains(videoLink, "&"))
+				return StringUtils.substringBetween(videoLink,"/v/", "&");
+			if(StringUtils.contains(videoLink, "?"))
+				return StringUtils.substringBetween(videoLink,"/v/", "?");
+			
 		}
+		
 		return "";
 	}
 	
