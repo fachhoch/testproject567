@@ -8,6 +8,7 @@ import org.apache.wicket.markup.html.resources.CompressedResourceReference;
 import org.apache.wicket.protocol.http.WebResponse;
 import org.wicketstuff.jquery.JQueryBehavior;
 
+import com.gae.yotube.jscript.JavaScriptPath;
 import com.gae.yotube.util.ServiceUtil;
 
 public class BasePage extends WebPage {
@@ -15,27 +16,29 @@ public class BasePage extends WebPage {
 	
 	public BasePage() {
 		add(new JQueryBehavior());
-		add(new AjaxLink<Void>("upload"){
-			@Override
-			public void onClick(AjaxRequestTarget target) {
-				setResponsePage(FileUploadPage.class);
-				setRedirect(true);
-			}
-		});
-		add(new AjaxLink<Void>("xmlupload"){
-			@Override
-			public void onClick(AjaxRequestTarget target) {
-				setResponsePage(XmlFileUploadPage.class);
-				setRedirect(true);
-			}
-		});
-		add(new AjaxLink<Void>("home"){
-			@Override
-			public void onClick(AjaxRequestTarget target) {
-				setResponsePage(HomePage.class);
-				setRedirect(true);
-			}
-		});
+		add(new MaskBehaviour());
+		
+//		add(new AjaxLink<Void>("upload"){
+//			@Override
+//			public void onClick(AjaxRequestTarget target) {
+//				setResponsePage(FileUploadPage.class);
+//				setRedirect(true);
+//			}
+//		});
+//		add(new AjaxLink<Void>("xmlupload"){
+//			@Override
+//			public void onClick(AjaxRequestTarget target) {
+//				setResponsePage(XmlFileUploadPage.class);
+//				setRedirect(true);
+//			}
+//		});
+//		add(new AjaxLink<Void>("home"){
+//			@Override
+//			public void onClick(AjaxRequestTarget target) {
+//				setResponsePage(HomePage.class);
+//				setRedirect(true);
+//			}
+//		});
 
 	}
 	
@@ -47,7 +50,7 @@ public class BasePage extends WebPage {
     }
 	
 	public static class JqueryYtubeBehaviour  extends  JQueryBehavior{
-		 public static final CompressedResourceReference JQUERY_UTUBE_JS = new CompressedResourceReference(JQueryBehavior.class, "jquery.youtubin.js");
+		 public static final CompressedResourceReference JQUERY_UTUBE_JS = new CompressedResourceReference(JavaScriptPath.class, "jquery.youtubin.js");
 		 @Override
 		public void renderHead(IHeaderResponse response) {
 			super.renderHead(response);
@@ -55,4 +58,16 @@ public class BasePage extends WebPage {
 			response.renderJavascript(ServiceUtil.GROOVY_XML.getScript("youtubin"), "youtubin");
 		 }
 	}
+	
+
+	public static class MaskBehaviour  extends  JQueryBehavior{
+		 public static final CompressedResourceReference JQUERY_BLOCKUI_JS = new CompressedResourceReference(JavaScriptPath.class, "jquery.blockUI.js");
+		@Override
+		public void renderHead(IHeaderResponse response) {
+			super.renderHead(response);
+			response.renderJavascriptReference(JQUERY_BLOCKUI_JS);
+			response.renderJavascript(ServiceUtil.GROOVY_XML.getScript("wicket_mask"), "wicket_mask");
+		 }
+	}
+
 }
