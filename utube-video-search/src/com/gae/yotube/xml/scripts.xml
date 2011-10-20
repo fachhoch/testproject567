@@ -13,4 +13,32 @@
 					  });
 			]]> 
         </script> 
+        <script name="wicket_mask">
+         	<![CDATA[ 
+         			function wicketGlobalPreCallHandler() { 
+   						jQuery.blockUI(); 
+ 					} 
+ 					function wicketGlobalPostCallHandler() { 
+ 					  jQuery.unblockUI(); 
+ 					} 
+ 					function wicketGlobalFailureHandler() { 
+ 					  jQuery.unblockUI(); 
+ 					} 
+         	]]> 
+        </script>
+<!--         <script name="wicket_mask"> -->
+<!--         	<![CDATA[ -->
+<!--         			function wicketGlobalPreCallHandler() { -->
+<!--   						$('.msg').alertr(); -->
+<!-- 					} -->
+<!-- 					function wicketGlobalPostCallHandler() { -->
+<!-- 					 $('.msg').alertr(); -->
+<!-- 					} -->
+<!-- 					function wicketGlobalFailureHandler() { -->
+<!-- 					 $('.msg').alertr(); -->
+<!-- 					} -->
+<!--         	]]> -->
+<!--         </script> -->
+
+
     </scripts>
