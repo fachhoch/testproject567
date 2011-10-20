@@ -52,6 +52,16 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 	</servlet-mapping>	
 	
 
+	<servlet>
+		<servlet-name>readTnServlet</servlet-name>
+		<servlet-class>com.gae.yotube.ReadTeluguNagarServlet</servlet-class>
+	</servlet>
+ 
+	<servlet-mapping>
+		<servlet-name>readTnServlet</servlet-name>
+		<url-pattern>/read/readTnServlet</url-pattern>
+	</servlet-mapping>	
+	
 
 
 	<servlet>
