@@ -71,6 +71,7 @@ public class XmlFileUploadPage extends BasePage {
             	for(VideoDTO  videoDTO  :videoDTOs){
             		Video  video=new Video();
             		video.setTitle(videoDTO.name);
+            		if(videoDTOs.isEmpty())continue;
             		String links=xstream.toXML(videoDTO.videoSrcDTOs);
             		video.setLink(links);
             		Queue queue = QueueFactory.getQueue("subscription-queue");
