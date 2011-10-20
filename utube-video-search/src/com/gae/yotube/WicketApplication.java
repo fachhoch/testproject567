@@ -23,6 +23,8 @@ public class WicketApplication extends WebApplication {
         super.init();
         // for Google App Engine
         getResourceSettings().setResourcePollFrequency(null);
+        mountBookmarkablePage("upload", FileUploadPage.class);
+        mountBookmarkablePage("xmlupload", XmlFileUploadPage.class);
     }
 	
 	@Override
