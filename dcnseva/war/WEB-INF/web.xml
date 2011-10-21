@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns="http://java.sun.com/xml/ns/javaee"
+xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
+
+
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value> 
+        	classpath:org/seva/dc/ns/applicationContext-default.xml
+        </param-value>
+    </context-param>
+
+
+	<filter>
+	    <filter-name>oemInViewFilter</filter-name>
+	    <filter-class>
+	        org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter
+	    </filter-class>
+	</filter>
+	
+	<filter-mapping>
+	    <filter-name>oemInViewFilter</filter-name>
+	    <url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+    <filter>
+        <filter-name>wicket</filter-name>
+        <filter-class>org.apache.wicket.protocol.http.WicketFilter</filter-class>
+        <init-param>
+            <param-name>applicationClassName</param-name>
+            <param-value>org.seva.dc.ns.web.WicketApplication</param-value>
+        </init-param>
+        <init-param>
+            <param-name>ignorePaths</param-name>
+            <param-value>/_ah/*</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>wicket</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+
+    <context-param>
+        <param-name>configuration</param-name>
+        <param-value>deployment</param-value>
+    </context-param>
+    
+	<servlet>
+		<servlet-name>PingCronServlet</servlet-name>
+		<servlet-class>org.seva.dc.ns.web.PingCronServlet</servlet-class>
+	</servlet>
+ 
+	<servlet-mapping>
+		<servlet-name>PingCronServlet</servlet-name>
+		<url-pattern>/cron/pingcronjob</url-pattern>
+	</servlet-mapping>	
+
+	<listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>	
+    
+	    
+</web-app>
