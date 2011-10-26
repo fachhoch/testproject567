@@ -13,7 +13,7 @@ public class WicketApplication extends WebApplication {
 	@Override
 	public Class<? extends Page> getHomePage() {
 		
-		return BasePage.class;
+		return HomePage.class;
 	}
 	@Override
     protected void init()

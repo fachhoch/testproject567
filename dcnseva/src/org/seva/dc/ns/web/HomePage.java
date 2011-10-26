@@ -60,6 +60,10 @@ public class HomePage extends BasePage {
 	@SpringBean(name="userService")
 	private UserService  userService;
 	
+	public HomePage() {
+		add(new UsersListsFragment(CONTENT_ID));
+	}
+	
 	private  class NsListsFragment extends  Fragment{
 		public NsListsFragment(String id) {
 			super(id, "nsListsFragment", HomePage.this);

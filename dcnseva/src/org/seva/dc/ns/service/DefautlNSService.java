@@ -7,7 +7,7 @@ import org.seva.dc.ns.domain.Ns;
 import org.seva.dc.ns.dto.NsSearchDTO;
 import org.springframework.stereotype.Service;
 
-@Service(value="defaultNSService")
+@Service(value="nsService")
 public class DefautlNSService extends DefaultService<Ns> implements NSService {
 
 	@Override

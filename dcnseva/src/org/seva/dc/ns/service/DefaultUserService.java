@@ -5,7 +5,9 @@ import java.util.List;
 import org.seva.dc.ns.doa.UserDAO;
 import org.seva.dc.ns.domain.User;
 import org.seva.dc.ns.dto.UserSearchDTO;
+import org.springframework.stereotype.Service;
 
+@Service(value="userService")
 public class DefaultUserService extends DefaultService<User> implements UserService {
 
 	@Override
