@@ -22,33 +22,44 @@
     <context:component-scan  base-package="org.seva.dcnseva"/>
     <aop:aspectj-autoproxy/>
 
-    <bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor"/>
 	<tx:annotation-driven />
 
-	<bean id="entityManagerFactory"
-     class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-     <property name="jpaVendorAdapter">
-        <bean
-        class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
-           <property name="showSql" value="true" />
-           <property name="generateDdl" value="true" />
-           <property name="databasePlatform" value="org.hibernate.dialect.MySQL5Dialect" />
-        </bean>
-     </property>
+	
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean"> 
+		<property name="configurationClass">
+			<value>org.hibernate.cfg.AnnotationConfiguration</value>
+		</property>
+		<property name="annotatedClasses">
+			<list>	
+				<value>org.seva.dc.ns.domain.Ns</value>	
+				<value>org.seva.dc.ns.domain.FItem</value>	
+				<value>org.seva.dc.ns.domain.User</value>	
+			</list>
+		</property>	
+		<property name="hibernateProperties">
+			<props>
+                <prop key="hibernate.generate_statistics">true</prop>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+                <prop key="hibernate.format_sql">true</prop>
+                <prop key="hibernate.use_sql_comments">true</prop>
+                <prop key="hibernate.connection.release_mode">auto</prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>                
+			</props>
+		</property>
+		<property name="dataSource" ref="dataSource"/>		    
     </bean>
 
 
-   <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
-        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
-        <property name="url" value="jdbc:mysql://localhost:3306/dcnseva" />
+   <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="com.google.appengine.api.rdbms.AppEngineDriver" />
+        <property name="url" value="jdbc:google:rdbms://localhost:3306/dcnseva" />
         <property name="username" value="root" />
         <property name="password" value="" />
    </bean>
     
-  <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
-		<property name="entityManagerFactory" ref="entityManagerFactory"/>
-        <property name="dataSource" ref="dataSource"/>  
-  </bean>
-	
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>	
 	
 </beans>

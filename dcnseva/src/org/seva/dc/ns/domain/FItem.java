@@ -1,12 +1,16 @@
 package org.seva.dc.ns.domain;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -33,7 +37,8 @@ public class FItem {
 		this.id = id;
 	}
 	
-	@JoinColumn(name="userId")
+	@OneToOne()
+	@JoinColumn(name="userId", nullable=false)
 	public User getUser() {
 		return user;
 	}
@@ -42,6 +47,7 @@ public class FItem {
 		this.user = user;
 	}
 	
+	@Column(nullable=false)
 	public int getQuantiy() {
 		return quantiy;
 	}
@@ -50,6 +56,8 @@ public class FItem {
 		this.quantiy = quantiy;
 	}
 	
+	@Enumerated(EnumType.STRING)
+	@Column(nullable=false)
 	public FType getFtType() {
 		return ftType;
 	}
@@ -58,7 +66,7 @@ public class FItem {
 		this.ftType = ftType;
 	}
 	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-	@JoinColumn(name="nsId")
+	@JoinColumn(name="nsId", nullable=false)
 	public Ns getNs() {
 		return ns;
 	}

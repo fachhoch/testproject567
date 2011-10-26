@@ -2,6 +2,7 @@ package org.seva.dc.ns.domain;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -33,7 +34,7 @@ public class User 	implements  Serializable{
 	public void setId(Long id) {
 		this.id = id;
 	}
-
+	@Column(nullable=false)
 	public String getFirstName() {
 		return firstName;
 	}
@@ -41,7 +42,8 @@ public class User 	implements  Serializable{
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
-
+	
+	@Column(nullable=false)
 	public String getLastName() {
 		return lastName;
 	}
@@ -49,7 +51,7 @@ public class User 	implements  Serializable{
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-
+	
 	public String getUsername() {
 		return username;
 	}

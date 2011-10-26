@@ -1,0 +1,155 @@
+<wicket:extend>
+		
+		<div wicket:id="contentId"/>
+		
+		<wicket:fragment wicket:id="nsListsFragment">
+			
+			<table  class="dataview"  style="width: 70%;" cellspacing="0" wicket:id="datatable">
+				<caption>Ns List</caption>	
+			</table>
+			<input type="button" value="New Ns"  wicket:id="newNs"/>
+		</wicket:fragment>
+	
+		<wicket:fragment wicket:id="editNsLinkFragment">
+			<a href="#" wicket:id="link">Edit</a>
+		</wicket:fragment>
+
+
+
+
+
+
+		<wicket:fragment wicket:id="editNsFragment">
+			<div wicket:id="nsPropertiesFragment"/>	
+			<div wicket:id="disTeamFragment"/>
+			<div wicket:id="fItemFragment"/>
+		</wicket:fragment>
+		
+		<wicket:fragment wicket:id="nsPropertiesFragment">
+			<div>
+				Name:<span wicket:id="name"></span>
+				On:<span wicket:id="nsOn"></span>
+				Lead:<span wicket:id="lead"></span>
+			</div>
+		</wicket:fragment>
+				
+		<wicket:fragment  wicket:id="disTeamFragment">
+			<table  class="dataview" cellspacing="0" >
+				<caption>Distribution Team Members</caption>
+				<thead>
+					<tr>
+						<th>
+							Name
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr wicket:id="disTeamMembersList">	
+						<td>
+							<span  wicket:id="name"/>
+						</td>
+					</tr>					
+				</tbody>
+			</table>
+		</wicket:fragment>	
+		
+		
+		<wicket:fragment wicket:id="fItemFragment">
+			<div wicket:id="fItemsListView"  style="float: left;">
+				<table  class="dataview" cellspacing="0" >
+					<caption><span wicket:id="fItemName"/></caption>
+					<thead>
+						<tr>
+							<th>Name</th>
+							<th>Quantity</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr wicket:id="fItemListView">	
+							<td>
+								<span  wicket:id="user"/>
+							</td>
+							<td>
+								<span  wicket:id="qunatity"/>
+							</td>
+						</tr>					
+					</tbody>
+				</table>
+			</div>	
+		</wicket:fragment>
+		
+		
+		
+		
+		<wicket:fragment wicket:id="editNsPropertiesFragment">
+			<form class="inputForm"   wicket:id="from">
+				<fieldset>
+					<legend>Edit NS</legend>
+					<table>
+						<tbody>
+							<tr>
+								<td valign="top">	
+									<label>Ns Name</label>
+									<input  type="text" size="40"  wicket:id="name"/>	
+									<label>Ns On</label>
+									<input  type="text" size="40"  wicket:id="nsOn"/>	
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<input type="submit" value="Save"  wicket:id="save"/>
+									<input type="submit" value="Cancel"  wicket:id="cancel"/>
+								</td>	
+							</tr>
+						</tbody>
+					</table>	
+				</fieldset>	
+			</form>
+		</wicket:fragment>
+		
+		
+
+
+		<wicket:fragment wicket:id="usersListsFragment">
+			
+			<table  class="dataview"  style="width: 70%;" cellspacing="0" wicket:id="datatable">
+				<caption>Users List</caption>	
+			</table>
+			<input type="button" value="New User"  wicket:id="newUser"/>
+		</wicket:fragment>
+	
+		<wicket:fragment wicket:id="editUserLinkFragment">
+			<a href="#" wicket:id="link">Edit</a>
+		</wicket:fragment>
+		
+		
+		<wicket:fragment wicket:id="editUserFragment">
+			<form class="inputForm"   wicket:id="form">
+				<fieldset>
+					<legend>Edit User</legend>
+					<table>
+						<tbody>
+							<tr>
+								<td valign="top">	
+									<label>First Name</label>
+									<input  type="text" size="40"  wicket:id="firstName"/>	
+									<label>Last Name</label>
+									<input  type="text" size="40"  wicket:id="lastName"/>	
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<input type="submit" value="Save"  wicket:id="save"/>
+									<input type="submit" value="Cancel"  wicket:id="cancel"/>
+								</td>	
+							</tr>
+						</tbody>
+					</table>	
+				</fieldset>	
+			</form>
+		</wicket:fragment>
+		
+	
+		
+				
+</wicket:extend>

@@ -5,24 +5,35 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
-public abstract class DefaultService<T> implements GenericService<T> {
+public  class DefaultService<T> implements GenericService<T> {
 
 	@Autowired
-	private GenericDao<T, Long> genericDao ;
-	
+	protected GenericDao<T, Long> entityDao ;
+
 	@Override
-	public T createOrUpdate(T t) {
-		return isCreate(t) ?  genericDao.create(t)  :genericDao.update(t);
+	public void createOrUpdate(T entity)  {
+		
+	}
+
+	@Override
+	public T getById(Long id)  {
+		return entityDao.getById(id);
+	}
+
+	@Override
+	public void delete(T entity)  {
+		entityDao.delete(entity);
+	}
+
+	@Override
+	public T loadById(Long id)  {
+		return entityDao.loadById(id);
+	}
+
+	@Override
+	public T merge(T entity) {
+		return entityDao.merge(entity);
 	}
 	
-	
-	protected abstract boolean  isCreate(T t);
-	
-	
-	@Override
-	public void delete(T t) {
-		// TODO Auto-generated method stub
-		genericDao.delete(t);
-	}
 
 }

@@ -1,12 +1,19 @@
 package org.seva.dc.ns.service;
 
+
 public interface GenericService<T> {
 	
 	
-	T createOrUpdate(T t);
+public void createOrUpdate(final T entity) ;
 	
 	
-	void delete(T t);
+	public T getById(final Long id) ;
+	
+	public void delete(final T entity) ;
+	
+	public T loadById(final Long id) ;
+	
+	public T merge(final T entity) ;
 	
 	
 	
