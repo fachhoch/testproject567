@@ -9,7 +9,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository(value="nsDAO")
 public class DefaultNsDAO extends AbstractHibernateDAO<Ns, Long> implements NsDAO {
-
+	
+	
 	@Override
 	public List<Ns> findNs(NsSearchDTO nsSearchDTO) {
 		return findByCriteria(new NsSearch(nsSearchDTO));

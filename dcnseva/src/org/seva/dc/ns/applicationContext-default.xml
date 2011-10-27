@@ -19,11 +19,13 @@
        >
 
 	<context:annotation-config/>
-    <context:component-scan  base-package="org.seva.dcnseva"/>
+    <context:component-scan  base-package="org.seva.dc.ns"/>
     <aop:aspectj-autoproxy/>
 
 	<tx:annotation-driven />
 
+
+	<bean id="springApplicationContext" class="org.seva.dc.ns.util.SpringApplicationContext"/>
 	
 	<bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean"> 
 		<property name="configurationClass">

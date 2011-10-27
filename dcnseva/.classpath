@@ -4,9 +4,8 @@
 	<classpathentry kind="con" path="com.google.appengine.eclipse.core.GAE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/groovy-1.8.2.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/jquery-1.4.7.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/wicket-1.4.12.jar" sourcepath="C:/Documents and Settings/sairamm/.m2/repository/org/apache/wicket/wicket/1.4.12/wicket-1.4.12-sources.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/wicket-extensions-1.4.12.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/wicket-extensions-1.4.12.jar" sourcepath="C:/Documents and Settings/sairamm/.m2/repository/org/apache/wicket/wicket-extensions/1.4.12/wicket-extensions-1.4.12-sources.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/mysql-connector-java-5.1.18-bin.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/commons-collections-3.1.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/javassist-3.12.0.GA.jar"/>
@@ -50,5 +49,8 @@
 	<classpathentry kind="lib" path="war/WEB-INF/lib/hibernate-annotations-3.3.0.ga.jar" sourcepath="C:/Documents and Settings/sairamm/.m2/repository/org/hibernate/hibernate-annotations/3.3.0.ga/hibernate-annotations-3.3.0.ga-sources.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/wicket-ioc-1.4.12.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/wicket-spring-1.4.12.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/jquery-1.4.12.jar" sourcepath="C:/Documents and Settings/sairamm/.m2/repository/org/wicketstuff/jquery/1.4.12/jquery-1.4.12-sources.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/misc-1.4.12.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/wicket-datetime-1.4.12.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

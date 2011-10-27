@@ -3,6 +3,7 @@ package org.seva.dc.ns.doa;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.criterion.Restrictions;
 import org.seva.dc.ns.domain.User;
 import org.seva.dc.ns.dto.UserSearchDTO;
 import org.springframework.stereotype.Repository;
@@ -34,6 +35,14 @@ public class DefaultUserDAO extends AbstractHibernateDAO<User, Long> implements 
 		protected void addFilters(Criteria criteria) {
 		}
 	}
-	
+	@Override
+	public User findByName(String name) {
+		return findUniqueResultByCriteria(new CriteriaCallback() {
+			@Override
+			protected void doWithCriteria(Criteria criteria) {
+				criteria.add(Restrictions.eq("username", "saibaba"));
+			}
+		});
+	}
 	
 }

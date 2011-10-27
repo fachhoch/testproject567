@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.seva.dc.ns.domain.User;
+import org.seva.dc.ns.service.UserService;
 
 public class NSUtil {
 	
@@ -18,5 +19,8 @@ public class NSUtil {
 		return new SimpleDateFormat("MM/dd/yyyy").format(date);
 	}
 
-	
+	public static User  getDefaultUser(){
+		UserService  userService=SpringApplicationContext.getBean("userService");
+		return userService.findByName("saibaba");
+	}
 }

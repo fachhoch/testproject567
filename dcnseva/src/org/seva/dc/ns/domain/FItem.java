@@ -1,10 +1,12 @@
 package org.seva.dc.ns.domain;
 
+import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -21,7 +23,7 @@ public class FItem {
 	
 	private User  user;
 	
-	private int quantiy;
+	private int quantity;
 	
 	private FType  ftType;
 	
@@ -47,13 +49,13 @@ public class FItem {
 		this.user = user;
 	}
 	
-	@Column(nullable=false)
-	public int getQuantiy() {
-		return quantiy;
+	@Column(name="quantiy", nullable=false)
+	public int getQuantity() {
+		return quantity;
 	}
 
-	public void setQuantiy(int quantiy) {
-		this.quantiy = quantiy;
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
 	}
 	
 	@Enumerated(EnumType.STRING)
@@ -67,6 +69,7 @@ public class FItem {
 	}
 	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	@JoinColumn(name="nsId", nullable=false)
+	@Basic(fetch=FetchType.LAZY)
 	public Ns getNs() {
 		return ns;
 	}
@@ -75,8 +78,26 @@ public class FItem {
 	}
 	
 	public static  enum FType  {
-		RICE,
-		BEAN,
-		POTATO
+		RICE{
+			@Override
+			public String getDisplayName() {
+				return "Rice";
+			}
+		},
+		BEAN{
+			@Override
+			public String getDisplayName() {
+				return "Bean";
+			}
+			
+		},
+		POTATO{
+			@Override
+			public String getDisplayName() {
+				return "Potato";
+			}
+			
+		};
+		public abstract  String getDisplayName();
 	}
 }

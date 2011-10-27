@@ -1,5 +1,7 @@
 package org.seva.dc.ns.service;
 
+import java.util.List;
+
 
 public interface GenericService<T> {
 	
@@ -15,7 +17,7 @@ public void createOrUpdate(final T entity) ;
 	
 	public T merge(final T entity) ;
 	
-	
+	public List<T> getAll();
 	
 	
 }

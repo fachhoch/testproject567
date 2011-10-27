@@ -6,15 +6,22 @@ import java.util.List;
 import java.util.Map;
 
 import org.hibernate.Criteria;
-import org.hibernate.criterion.Criterion;
+import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.seva.dc.ns.dto.SearchDTO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 public abstract class AbstractHibernateDAO<T, PK  extends  Serializable> extends HibernateDaoSupport implements GenericDao<T, PK> {
 	
 	private Class<T> persistentClass;
+	
+	
+	@Autowired
+	protected void init(SessionFactory  sessionFactory){
+		setSessionFactory(sessionFactory);
+	}
 	
 	@SuppressWarnings("unchecked")
 	public AbstractHibernateDAO() {
@@ -39,7 +46,8 @@ public abstract class AbstractHibernateDAO<T, PK  extends  Serializable> extends
 
 	@Override
 	public List<T> findAll() {
-		return null;
+		Criteria criteria = getSessionFactory().getCurrentSession().createCriteria(getPersistentClass());
+		return criteria.list();		
 	}
 
 	@SuppressWarnings("rawtypes")

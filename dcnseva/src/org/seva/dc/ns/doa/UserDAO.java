@@ -11,5 +11,7 @@ public interface UserDAO extends GenericDao<User, Long> {
 	
 	int  getUserCount(UserSearchDTO  userSearchDTO );
 
+	User findByName(String name);
+
 	
 }

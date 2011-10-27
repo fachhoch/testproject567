@@ -5,9 +5,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -24,7 +26,6 @@ public class Ns implements Serializable {
 	
 	private Long id;
 	
-	
 	private Date  nsOn;
 	
 	private String name;
@@ -33,12 +34,9 @@ public class Ns implements Serializable {
 	
 	private List<FItem>  fItems=new ArrayList<FItem>();
 	
-	
 	private List<User>  disTeamMembers= new ArrayList<User>();
 	
 	private  User  owner;
-	
-	
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -75,7 +73,7 @@ public class Ns implements Serializable {
 		this.name = name;
 	}
 
-	@OneToMany(cascade=CascadeType.ALL)
+	@OneToMany(mappedBy="ns", cascade=CascadeType.ALL)
 	@Cascade(org.hibernate.annotations.CascadeType.DELETE_ORPHAN)	
 	public List<FItem> getfItems() {
 		return fItems;
@@ -85,6 +83,7 @@ public class Ns implements Serializable {
 	}
 	
 	@OneToMany(cascade=CascadeType.ALL)
+	
 	public List<User> getDisTeamMembers() {
 		return disTeamMembers;
 	}
@@ -100,6 +99,7 @@ public class Ns implements Serializable {
 
 	@OneToOne()
 	@JoinColumn(name="owner_id", nullable=false)
+	@Basic(fetch=FetchType.LAZY)
 	public User getOwner() {
 		return owner;
 	}
