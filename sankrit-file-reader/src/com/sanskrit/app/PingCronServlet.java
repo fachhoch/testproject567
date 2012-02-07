@@ -9,8 +9,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.htmlparser.Parser;
-
 public class PingCronServlet extends HttpServlet {
 
 	private static final Logger log = Logger.getLogger(PingCronServlet.class
@@ -20,7 +18,7 @@ public class PingCronServlet extends HttpServlet {
 			throws IOException {
 		try {
 			log.info("ping Cron Job has been executed");
-			new Parser("http://srini-links.appspot.com");
+			//new Parser("http://srini-links.appspot.com");
 			log.info("doen job");
 		} catch (Exception ex) {
 			log.log(Level.SEVERE, "Uncaught exception", ex);

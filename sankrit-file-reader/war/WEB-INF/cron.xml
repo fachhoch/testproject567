@@ -3,8 +3,9 @@
 	<cron>
 		<url>/cron/gaejcronjob</url>
 		<description>GAEJExperiments Cron Job that simply announces that it got invoked.</description>
-		<schedule>every 10 minutes</schedule>
+		<schedule>every 24 hours</schedule>
 	    <timezone>America/New_York</timezone>
+	    <target>sreaderbackend</target>
 	</cron>
 	<cron>
 		<url>/cron/pingcronjob</url>
